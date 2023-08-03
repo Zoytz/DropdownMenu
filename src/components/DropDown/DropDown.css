@@ -1,9 +1,25 @@
 .menu {
-  position: relative;
+  position: absolute;
 }
 
-.menu__type_right {
-  justify-self: end;
+.menu_type_tl {
+  top: 0;
+  left: 0;
+}
+
+.menu_type_tr {
+  top: 0;
+  left: 100%;
+}
+
+.menu_type_bl {
+  top: 100%;
+  left: 0;
+}
+
+.menu_type_br {
+  top: 100%;
+  left: 100%;
 }
 
 .menu__button {

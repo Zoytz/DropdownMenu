@@ -118,8 +118,8 @@ function App() {
     setCurrentOpenedMenu(id);
   };
 
-  const pageHeigth = window.innerWidth;
-  const pageWidth = window.innerHeight;
+  const pageHeigth = window.innerHeight;
+  const pageWidth = window.innerWidth;
 
   return (
     <div onClick={handleCloseMenus} className='page'>
@@ -130,6 +130,7 @@ function App() {
         pageHeigth={pageHeigth}
         pageWidth={pageWidth}
         handleSetOpenMenu={handleSetOpenMenu}
+        type='tl'
       />
       <DropDown
         id={2}
@@ -138,7 +139,7 @@ function App() {
         pageHeigth={pageHeigth}
         pageWidth={pageWidth}
         handleSetOpenMenu={handleSetOpenMenu}
-        type='r'
+        type='tr'
       />
       <DropDown
         id={3}
@@ -147,6 +148,7 @@ function App() {
         pageHeigth={pageHeigth}
         pageWidth={pageWidth}
         handleSetOpenMenu={handleSetOpenMenu}
+        type='bl'
       />
       <DropDown
         id={4}
@@ -155,7 +157,7 @@ function App() {
         pageHeigth={pageHeigth}
         pageWidth={pageWidth}
         handleSetOpenMenu={handleSetOpenMenu}
-        type='r'
+        type='br'
       />
     </div>
   );

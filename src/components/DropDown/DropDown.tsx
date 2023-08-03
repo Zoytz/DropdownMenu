@@ -30,11 +30,7 @@ const DropDown: FC<PropsType> = (
   const closedMenuHeight = 24;
 
   useEffect(() => {
-    if (currentOpenedMenu !== id) {
-      return
-    } else {
-      setMenuPositions();
-    }
+    setMenuPositions();
   }, [currentOpenedMenu]);
 
   const handleMenuToggle = () => {
@@ -50,18 +46,14 @@ const DropDown: FC<PropsType> = (
   };
 
   const willMenuMoveUp = (menuPosition: DOMRect, menuHeigth: number) => {
-    if (menuHeigth > pageHeigth) {
-      handleSetOpenMenu(0);
-    } else if (pageHeigth - menuPosition.y < menuHeigth) {
+    if (pageHeigth - menuPosition.y < menuHeigth) {
       const menuTranslateValue = pageHeigth - menuHeigth - menuPosition.y;
       menuRef.current!.style.transform = `translateY(${menuTranslateValue}px)`;
     }
   };
 
   const willMenuMoveDown = (menuPosition: DOMRect, menuHeigth: number) => {
-    if (menuHeigth > pageHeigth) {
-      handleSetOpenMenu(0);
-    } else if (menuHeigth > menuPosition.y) {
+    if (menuHeigth > menuPosition.y) {
       const menuTranslateValue = menuHeigth - menuPosition.y + 20;
       menuRef.current!.style.transform = `translateY(${menuTranslateValue}px)`;
     }
@@ -78,7 +70,7 @@ const DropDown: FC<PropsType> = (
       menuItems!.style.left = '0';
       menuItems!.style.top = '100%';
       menuItems!.style.transform = 'translate(0, 0)';
-    } else if ((menuPosition.x < pageWidth / 2) && menuPosition.y > pageHeigth / 2) {
+    } else if ((menuPosition.x < pageWidth / 2) && menuPosition.y >= pageHeigth / 2) {
       willMenuMoveDown(menuPosition, menuHeigth);
       menuItems!.style.left = '0%';
       menuItems!.style.top = '0%';
@@ -88,7 +80,7 @@ const DropDown: FC<PropsType> = (
       menuItems!.style.left = '100%';
       menuItems!.style.top = '100%';
       menuItems!.style.transform = 'translate(-100%, 0)';
-    } else if ((menuPosition.x > pageWidth / 2) && menuPosition.y > pageHeigth / 2) {
+    } else if ((menuPosition.x >= pageWidth / 2) && menuPosition.y >= pageHeigth / 2) {
       willMenuMoveDown(menuPosition, menuHeigth);
       menuItems!.style.left = '100%';
       menuItems!.style.top = '0';
@@ -97,7 +89,7 @@ const DropDown: FC<PropsType> = (
   };
 
   return (
-    <nav onMouseEnter={handleOpenCurrentMenu} ref={menuRef} className={`menu ${type ? 'menu__type_right' : ''}`}>
+    <nav onMouseEnter={handleOpenCurrentMenu} ref={menuRef} className={`menu ${`menu_type_${type}`}`}>
       <button
         onClick={handleMenuToggle}
         type='button'

@@ -3,14 +3,9 @@
 }
 
 .page {
-  padding: 40px;
   width: 100vw;
   height: 100vh;
   box-sizing: border-box;
   position: relative;
   overflow: hidden;
-  display: grid;
-  grid-template-columns: 24px 24px;
-  align-content: space-between;
-  justify-content: space-between;
 }
