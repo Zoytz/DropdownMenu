@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/DropdownMenu/static/css/main.cdad9031.css",
-    "main.js": "/DropdownMenu/static/js/main.474778a5.js",
+    "main.css": "/DropdownMenu/static/css/main.d8ac9f30.css",
+    "main.js": "/DropdownMenu/static/js/main.a8335f11.js",
     "index.html": "/DropdownMenu/index.html",
     "static/media/share.svg": "/DropdownMenu/static/media/share.709c4a04c43066332bd70478c6a18f38.svg",
     "static/media/edit.svg": "/DropdownMenu/static/media/edit.f9a985514490b053354591cb888b8cf9.svg",
     "static/media/delete.svg": "/DropdownMenu/static/media/delete.a864b6b6ee9ef0386c78eef0d2982559.svg",
     "static/media/menu.svg": "/DropdownMenu/static/media/menu.644fa295fdd5f662e642ba6bfb084239.svg",
     "static/media/close.svg": "/DropdownMenu/static/media/close.6c9a4ba71a333be7b021fc6da39d864c.svg",
-    "main.cdad9031.css.map": "/DropdownMenu/static/css/main.cdad9031.css.map",
-    "main.474778a5.js.map": "/DropdownMenu/static/js/main.474778a5.js.map"
+    "main.d8ac9f30.css.map": "/DropdownMenu/static/css/main.d8ac9f30.css.map",
+    "main.a8335f11.js.map": "/DropdownMenu/static/js/main.a8335f11.js.map"
   },
   "entrypoints": [
-    "static/css/main.cdad9031.css",
-    "static/js/main.474778a5.js"
+    "static/css/main.d8ac9f30.css",
+    "static/js/main.a8335f11.js"
   ]
 }
