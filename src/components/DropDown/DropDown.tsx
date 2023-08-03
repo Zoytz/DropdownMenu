@@ -1,4 +1,4 @@
-import { FC, LegacyRef, RefObject, useEffect, useRef, useState } from 'react';
+import { FC, RefObject, useEffect, useRef } from 'react';
 import { MenuItemType } from '../App/App';
 import menuImageTypeOpen from '../../images/close.svg';
 import menuImageTypeClose from '../../images/menu.svg';
@@ -27,20 +27,13 @@ const DropDown: FC<PropsType> = (
   const menuRef = useRef() as RefObject<HTMLElement>;
   const listRef = useRef() as RefObject<HTMLUListElement>;
 
-  const closedMenuHeight = 28;
+  const closedMenuHeight = 24;
 
   useEffect(() => {
     if (currentOpenedMenu !== id) {
       return
     } else {
-
       setMenuPositions();
-
-      const menuPosition = menuRef.current!.getBoundingClientRect()
-
-      if (menuPosition.y < 0 || menuPosition.y > pageHeigth) {
-        handleSetOpenMenu(0);
-      }
     }
   }, [currentOpenedMenu]);
 
@@ -57,14 +50,18 @@ const DropDown: FC<PropsType> = (
   };
 
   const willMenuMoveUp = (menuPosition: DOMRect, menuHeigth: number) => {
-    if (pageHeigth - menuPosition.y < menuHeigth) {
+    if (menuHeigth > pageHeigth) {
+      handleSetOpenMenu(0);
+    } else if (pageHeigth - menuPosition.y < menuHeigth) {
       const menuTranslateValue = pageHeigth - menuHeigth - menuPosition.y;
       menuRef.current!.style.transform = `translateY(${menuTranslateValue}px)`;
     }
   };
 
   const willMenuMoveDown = (menuPosition: DOMRect, menuHeigth: number) => {
-    if (menuHeigth > menuPosition.y) {
+    if (menuHeigth > pageHeigth) {
+      handleSetOpenMenu(0);
+    } else if (menuHeigth > menuPosition.y) {
       const menuTranslateValue = menuHeigth - menuPosition.y + 20;
       menuRef.current!.style.transform = `translateY(${menuTranslateValue}px)`;
     }

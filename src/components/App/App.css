@@ -10,6 +10,7 @@
   position: relative;
   overflow: hidden;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 24px 24px;
   align-content: space-between;
+  justify-content: space-between;
 }
