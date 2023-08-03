@@ -1,178 +1,161 @@
 import './App.css';
 import DropDown from '../DropDown/DropDown';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
+import shareImage from '../../images/share.svg';
+import editImage from '../../images/edit.svg';
+import deletImage from '../../images/delete.svg';
 
 export type MenuItemType = {
   title: string
   id: number
-  type: string
+  image: string
 }
 
 const menuItems: MenuItemType[] = [
   {
     title: 'Поделиться в социальных сетях',
     id: 1,
-    type: 'share',
+    image: `${shareImage}`,
   },
   {
     title: 'Редактировать страницу',
     id: 2,
-    type: 'edit',
+    image: `${editImage}`,
   },
   {
     title: 'Удалить страницу',
     id: 3,
-    type: 'delete',
+    image: `${deletImage}`,
   },
   {
     title: 'Поделиться в социальных сетях',
-    id: 1,
-    type: 'share',
+    id: 4,
+    image: `${shareImage}`,
   },
   {
     title: 'Редактировать страницу',
-    id: 2,
-    type: 'edit',
+    id: 5,
+    image: `${editImage}`,
   },
   {
     title: 'Удалить страницу',
-    id: 3,
-    type: 'delete',
+    id: 6,
+    image: `${deletImage}`,
   },
   {
     title: 'Поделиться в социальных сетях',
-    id: 1,
-    type: 'share',
+    id: 7,
+    image: `${shareImage}`,
   },
   {
     title: 'Редактировать страницу',
-    id: 2,
-    type: 'edit',
+    id: 8,
+    image: `${editImage}`,
   },
   {
     title: 'Удалить страницу',
-    id: 3,
-    type: 'delete',
+    id: 9,
+    image: `${deletImage}`,
   },
   {
     title: 'Поделиться в социальных сетях',
-    id: 1,
-    type: 'share',
+    id: 10,
+    image: `${shareImage}`,
   },
   {
     title: 'Редактировать страницу',
-    id: 2,
-    type: 'edit',
+    id: 11,
+    image: `${editImage}`,
   },
   {
     title: 'Удалить страницу',
-    id: 3,
-    type: 'delete',
+    id: 12,
+    image: `${deletImage}`,
   },
   {
     title: 'Поделиться в социальных сетях',
-    id: 1,
-    type: 'share',
+    id: 13,
+    image: `${shareImage}`,
   },
   {
     title: 'Редактировать страницу',
-    id: 2,
-    type: 'edit',
+    id: 14,
+    image: `${editImage}`,
   },
   {
     title: 'Удалить страницу',
-    id: 3,
-    type: 'delete',
+    id: 15,
+    image: `${deletImage}`,
   },
   {
     title: 'Поделиться в социальных сетях',
-    id: 1,
-    type: 'share',
+    id: 16,
+    image: `${shareImage}`,
   },
   {
     title: 'Редактировать страницу',
-    id: 2,
-    type: 'edit',
+    id: 17,
+    image: `${editImage}`,
   },
   {
     title: 'Удалить страницу',
-    id: 3,
-    type: 'delete',
+    id: 18,
+    image: `${deletImage}`,
   },
 ];
 
 function App() {
 
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [currentOpenedMenu, setCurrentOpenedMenu] = useState(0);
 
-  const menuRef: any = useRef();
-  const listRef: any = useRef();
-  const pageRef: any = useRef();
-
-  const closedMenuHeight = 28;
-
-  const willMenuMoveUp = (pageHeigth: number, menuPosition: DOMRect, menuHeigth: number) => {
-    if (pageHeigth - menuPosition.y < menuHeigth) {
-      const menuTranslateValue = pageHeigth - menuHeigth - menuPosition.y;
-      pageRef.current.style.transform = `translateY(${menuTranslateValue}px)`
+  const handleCloseMenus = (e: any) => {
+    if (e.target.classList.contains('page') && !e.target.classList.contains('menu__items')) {
+      setCurrentOpenedMenu(0);
     }
   };
 
-  const willMenuMoveDown = (menuPosition: DOMRect, menuHeigth: number) => {
-    if (menuHeigth > menuPosition.y) {
-      const menuTranslateValue = menuHeigth - menuPosition.y + 20;
-      pageRef.current.style.transform = `translateY(${menuTranslateValue}px)`;
-    }
+  const handleSetOpenMenu = (id: number) => {
+    setCurrentOpenedMenu(id);
   };
 
-  const setMenuPositions = () => {
-    const menuItems = listRef.current;
-    const menuPosition = menuRef.current.getBoundingClientRect();
-    const menuItemsHeight = listRef.current.clientHeight;
-    const menuHeigth = menuItemsHeight + closedMenuHeight;
-    const pageHeigth = pageRef.current.clientHeight - 40;
-
-    if (menuPosition.x <= 280 && (menuPosition.y < menuHeigth && menuPosition.y < pageHeigth / 2)) {
-      willMenuMoveUp(pageHeigth, menuPosition, menuHeigth);
-      menuItems.style.left = '0';
-      menuItems.style.top = '100%';
-      menuItems.style.transform = 'translate(0, 0)';
-    } else if (menuPosition.x <= 280 && (menuPosition.y < menuHeigth && menuPosition.y > pageHeigth / 2)) {
-      menuItems.style.left = '0%';
-      menuItems.style.top = '0%';
-      menuItems.style.transform = 'translate(0, -100%)';
-      willMenuMoveDown(menuPosition, menuHeigth);
-    } else if (menuPosition.x >= 280 && (menuPosition.y < menuHeigth && menuPosition.y < pageHeigth / 2)) {
-      willMenuMoveUp(pageHeigth, menuPosition, menuHeigth);
-      menuItems.style.left = '100%';
-      menuItems.style.top = '100%';
-      menuItems.style.transform = 'translate(-100%, 0)';
-    } else if (menuPosition.x >= 280 && (menuPosition.y < menuHeigth && menuPosition.y > pageHeigth / 2)) {
-      menuItems.style.left = '100%';
-      menuItems.style.top = '0';
-      menuItems.style.transform = 'translate(-100%, -100%)';
-      willMenuMoveDown(menuPosition, menuHeigth);
-    }
-  };
-
-  useEffect(() => {
-    if (isMenuOpen) {
-      setMenuPositions();
-    }
-  }, [isMenuOpen]);
-
-  const handleMenuClick = () => {
-    setIsMenuOpen(prev => !prev);
-  };
+  const pageHeigth = window.innerWidth;
+  const pageWidth = window.innerHeight;
 
   return (
-    <div ref={pageRef} className='page'>
+    <div onClick={handleCloseMenus} className='page'>
       <DropDown
+        id={1}
         menuItems={menuItems}
-        isMenuOpen={isMenuOpen}
-        handleMenuClick={handleMenuClick}
-        menuRef={menuRef}
-        listRef={listRef}
+        currentOpenedMenu={currentOpenedMenu}
+        pageHeigth={pageHeigth}
+        pageWidth={pageWidth}
+        handleSetOpenMenu={handleSetOpenMenu}
+      />
+      <DropDown
+        id={2}
+        menuItems={menuItems}
+        currentOpenedMenu={currentOpenedMenu}
+        pageHeigth={pageHeigth}
+        pageWidth={pageWidth}
+        handleSetOpenMenu={handleSetOpenMenu}
+        type='r'
+      />
+      <DropDown
+        id={3}
+        menuItems={menuItems}
+        currentOpenedMenu={currentOpenedMenu}
+        pageHeigth={pageHeigth}
+        pageWidth={pageWidth}
+        handleSetOpenMenu={handleSetOpenMenu}
+      />
+      <DropDown
+        id={4}
+        menuItems={menuItems}
+        currentOpenedMenu={currentOpenedMenu}
+        pageHeigth={pageHeigth}
+        pageWidth={pageWidth}
+        handleSetOpenMenu={handleSetOpenMenu}
+        type='r'
       />
     </div>
   );

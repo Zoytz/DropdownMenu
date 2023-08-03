@@ -1,7 +1,9 @@
 .menu {
   position: relative;
-  /* top: 40%;
-  right: 20%; */
+}
+
+.menu__type_right {
+  justify-self: end;
 }
 
 .menu__button {

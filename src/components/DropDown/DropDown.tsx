@@ -1,44 +1,120 @@
-import { FC } from 'react';
+import { FC, LegacyRef, RefObject, useEffect, useRef, useState } from 'react';
 import { MenuItemType } from '../App/App';
 import menuImageTypeOpen from '../../images/close.svg';
 import menuImageTypeClose from '../../images/menu.svg';
-import shareImage from '../../images/share.svg';
-import editImage from '../../images/edit.svg';
-import deleImage from '../../images/delete.svg';
 
 type PropsType = {
+  id: number
   menuItems: MenuItemType[]
-  isMenuOpen: boolean
-  listRef: any
-  menuRef: any
-  handleMenuClick: () => void
+  currentOpenedMenu: number
+  pageHeigth: number
+  pageWidth: number
+  handleSetOpenMenu: (id: number) => void
+  type?: string
 }
 
 const DropDown: FC<PropsType> = (
-  { 
-    menuItems, 
-    isMenuOpen, 
-    handleMenuClick,
-    menuRef,
-    listRef,
+  {
+    id,
+    currentOpenedMenu,
+    menuItems,
+    pageHeigth,
+    pageWidth,
+    handleSetOpenMenu,
+    type,
   }) => {
 
+  const menuRef = useRef() as RefObject<HTMLElement>;
+  const listRef = useRef() as RefObject<HTMLUListElement>;
+
+  const closedMenuHeight = 28;
+
+  useEffect(() => {
+    if (currentOpenedMenu !== id) {
+      return
+    } else {
+
+      setMenuPositions();
+
+      const menuPosition = menuRef.current!.getBoundingClientRect()
+
+      if (menuPosition.y < 0 || menuPosition.y > pageHeigth) {
+        handleSetOpenMenu(0);
+      }
+    }
+  }, [currentOpenedMenu]);
+
+  const handleMenuToggle = () => {
+    if (currentOpenedMenu === id) {
+      handleSetOpenMenu(0);
+    } else {
+      handleSetOpenMenu(id);
+    }
+  };
+
+  const handleOpenCurrentMenu = () => {
+    handleSetOpenMenu(id);
+  };
+
+  const willMenuMoveUp = (menuPosition: DOMRect, menuHeigth: number) => {
+    if (pageHeigth - menuPosition.y < menuHeigth) {
+      const menuTranslateValue = pageHeigth - menuHeigth - menuPosition.y;
+      menuRef.current!.style.transform = `translateY(${menuTranslateValue}px)`;
+    }
+  };
+
+  const willMenuMoveDown = (menuPosition: DOMRect, menuHeigth: number) => {
+    if (menuHeigth > menuPosition.y) {
+      const menuTranslateValue = menuHeigth - menuPosition.y + 20;
+      menuRef.current!.style.transform = `translateY(${menuTranslateValue}px)`;
+    }
+  };
+
+  const setMenuPositions = () => {
+    const menuItems = listRef!.current;
+    const menuPosition = menuRef.current!.getBoundingClientRect();
+    const menuItemsHeight = listRef?.current!.clientHeight;
+    const menuHeigth = menuItemsHeight + closedMenuHeight;
+
+    if ((menuPosition.x < pageWidth / 2) && menuPosition.y < pageHeigth / 2) {
+      willMenuMoveUp(menuPosition, menuHeigth);
+      menuItems!.style.left = '0';
+      menuItems!.style.top = '100%';
+      menuItems!.style.transform = 'translate(0, 0)';
+    } else if ((menuPosition.x < pageWidth / 2) && menuPosition.y > pageHeigth / 2) {
+      willMenuMoveDown(menuPosition, menuHeigth);
+      menuItems!.style.left = '0%';
+      menuItems!.style.top = '0%';
+      menuItems!.style.transform = 'translate(0, -100%)';
+    } else if ((menuPosition.x > pageWidth / 2) && menuPosition.y < pageHeigth / 2) {
+      willMenuMoveUp(menuPosition, menuHeigth);
+      menuItems!.style.left = '100%';
+      menuItems!.style.top = '100%';
+      menuItems!.style.transform = 'translate(-100%, 0)';
+    } else if ((menuPosition.x > pageWidth / 2) && menuPosition.y > pageHeigth / 2) {
+      willMenuMoveDown(menuPosition, menuHeigth);
+      menuItems!.style.left = '100%';
+      menuItems!.style.top = '0';
+      menuItems!.style.transform = 'translate(-100%, -100%)';
+    }
+  };
+
   return (
-    <nav ref={menuRef} className='menu'>
+    <nav onMouseEnter={handleOpenCurrentMenu} ref={menuRef} className={`menu ${type ? 'menu__type_right' : ''}`}>
       <button
-        onClick={handleMenuClick}
+        onClick={handleMenuToggle}
         type='button'
         className='menu__button'
       >
         <img
-          src={isMenuOpen ? menuImageTypeOpen : menuImageTypeClose}
+          src={currentOpenedMenu === id ? menuImageTypeOpen : menuImageTypeClose}
           alt='Menu'
           className='menu__image'
         />
       </button>
       <ul
         ref={listRef}
-        className={`menu__items ${isMenuOpen ? 'menu__items_type_visible' : ''}`}
+        className={`menu__items ${currentOpenedMenu === id ? 'menu__items_type_visible' : ''}`}
       >
         {
           menuItems.map((menuItem) => {
@@ -47,10 +123,10 @@ const DropDown: FC<PropsType> = (
                 key={menuItem.id}
                 className='menu__item'
               >
-                {menuItem.title}
+                {menuItem.id}. {menuItem.title}
                 <img
-                  src={`${menuItem.type === 'share' ? shareImage : menuItem.type === 'edit' ? editImage : deleImage}`}
-                  alt={menuItem.type}
+                  src={menuItem.image}
+                  alt={menuItem.title}
                   className='menu__item-image' />
               </li>
             )
