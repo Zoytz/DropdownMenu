@@ -7,8 +7,6 @@ type PropsType = {
   id: number
   menuItems: MenuItemType[]
   currentOpenedMenu: number
-  pageHeigth: number
-  pageWidth: number
   handleSetOpenMenu: (id: number) => void
   type?: string
 }
@@ -18,14 +16,15 @@ const DropDown: FC<PropsType> = (
     id,
     currentOpenedMenu,
     menuItems,
-    pageHeigth,
-    pageWidth,
     handleSetOpenMenu,
     type,
   }) => {
 
   const menuRef = useRef() as RefObject<HTMLElement>;
   const listRef = useRef() as RefObject<HTMLUListElement>;
+
+  const pageHeigth = window.innerHeight;
+  const pageWidth = window.innerWidth;
 
   const closedMenuHeight = 24;
 
