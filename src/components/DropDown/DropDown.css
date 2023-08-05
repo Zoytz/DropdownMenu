@@ -9,17 +9,17 @@
 
 .menu_type_tr {
   top: 0;
-  left: 100%;
+  left: calc(100% - 24px);
 }
 
 .menu_type_bl {
-  top: 100%;
+  top: calc(100% - 24px);
   left: 0;
 }
 
 .menu_type_br {
-  top: 100%;
-  left: 100%;
+  top: calc(100% - 24px);
+  left: calc(100% - 24px);
 }
 
 .menu__button {
